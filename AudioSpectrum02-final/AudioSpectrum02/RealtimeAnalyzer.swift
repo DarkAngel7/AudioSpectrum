@@ -31,8 +31,10 @@ class RealtimeAnalyzer {
         return bands
     }()
     
+    //缓存上一帧的值
     private var spectrumBuffer = [[Float]]()
-    public var spectrumSmooth: Float = 0.5 {
+    //缓动系数，数值越大动画越"缓"
+    public var spectrumSmooth: Float = 0 {
         didSet {
             spectrumSmooth = max(0.0, spectrumSmooth)
             spectrumSmooth = min(1.0, spectrumSmooth)
@@ -60,7 +62,7 @@ class RealtimeAnalyzer {
                 return element * aWeights[index]
             }
             var spectrum = bands.map {
-                findMaxAmplitude(for: $0, in: weightedAmplitudes, with: Float(buffer.format.sampleRate)  / Float(self.fftSize)) * 5
+                findMaxAmplitude(for: $0, in: weightedAmplitudes, with: Float(buffer.format.sampleRate)  / Float(self.fftSize)) * 6
             }
             spectrum = highlightWaveform(spectrum: spectrum)
             

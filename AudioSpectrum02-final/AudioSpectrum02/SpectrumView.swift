@@ -16,6 +16,8 @@ class SpectrumView: UIView {
     
     var leftGradientLayer = CAGradientLayer()
     var rightGradientLayer = CAGradientLayer()
+    private let leftMaskLayer = CAShapeLayer()
+    private let rightMaskLayer = CAShapeLayer()
     
     var spectra:[[Float]]? {
         didSet {
@@ -28,10 +30,13 @@ class SpectrumView: UIView {
                     let bar = UIBezierPath(rect: CGRect(x: x, y: y, width: barWidth, height: bounds.height - bottomSpace - y))
                     leftPath.append(bar)
                 }
-                let leftMaskLayer = CAShapeLayer()
+                let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
+                animation.fromValue = leftMaskLayer.path
+                animation.toValue = leftPath.cgPath
+                leftMaskLayer.add(animation, forKey: nil)
+                
                 leftMaskLayer.path = leftPath.cgPath
                 leftGradientLayer.frame = CGRect(x: 0, y: topSpace, width: bounds.width, height: bounds.height - topSpace - bottomSpace)
-                leftGradientLayer.mask = leftMaskLayer
                 
                 // right channel
                 if spectra.count >= 2 {
@@ -42,10 +47,13 @@ class SpectrumView: UIView {
                         let bar = UIBezierPath(rect: CGRect(x: x, y: y, width: barWidth, height: bounds.height - bottomSpace - y))
                         rightPath.append(bar)
                     }
-                    let rightMaskLayer = CAShapeLayer()
+                    let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
+                    animation.fromValue = rightMaskLayer.path
+                    animation.toValue = rightPath.cgPath
+                    rightMaskLayer.add(animation, forKey: nil)
+                    
                     rightMaskLayer.path = rightPath.cgPath
                     rightGradientLayer.frame = CGRect(x: 0, y: topSpace, width: bounds.width, height: bounds.height - topSpace - bottomSpace)
-                    rightGradientLayer.mask = rightMaskLayer
                 }
             }
         }
@@ -65,11 +73,13 @@ class SpectrumView: UIView {
         rightGradientLayer.colors = [UIColor.init(red: 52/255, green: 232/255, blue: 158/255, alpha: 1.0).cgColor,
                                      UIColor.init(red: 15/255, green: 52/255, blue: 67/255, alpha: 1.0).cgColor]
         rightGradientLayer.locations = [0.6, 1.0]
+        rightGradientLayer.mask = rightMaskLayer
         self.layer.addSublayer(rightGradientLayer)
         
         leftGradientLayer.colors = [UIColor.init(red: 194/255, green: 21/255, blue: 0/255, alpha: 1.0).cgColor,
                                     UIColor.init(red: 255/255, green: 197/255, blue: 0/255, alpha: 1.0).cgColor]
         leftGradientLayer.locations = [0.6, 1.0]
+        leftGradientLayer.mask = leftMaskLayer
         self.layer.addSublayer(leftGradientLayer)
     }
     

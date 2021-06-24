@@ -37,7 +37,7 @@ class AudioSpectrumPlayer {
     
     public var analyzer: RealtimeAnalyzer!
     
-    init(bufferSize: Int = 2048) {
+    init(bufferSize: Int = 4096) {
         engine.attach(player)
         engine.connect(player, to: engine.mainMixerNode, format: nil)
         engine.prepare()
