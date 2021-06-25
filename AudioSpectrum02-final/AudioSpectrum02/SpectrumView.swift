@@ -6,10 +6,17 @@
 
 import UIKit
 
+extension SpectrumView {
+    enum SpectraBarCapStyle: Int {
+        case butt, round
+    }
+}
+
 class SpectrumView: UIView {
     
     var barWidth: CGFloat = 3.0
     var space: CGFloat = 1.0
+    var barCapStyle: SpectraBarCapStyle = .round
     
     private let bottomSpace: CGFloat = 0.0
     private let topSpace: CGFloat = 0.0
@@ -27,11 +34,12 @@ class SpectrumView: UIView {
                 for (i, amplitude) in spectra[0].enumerated() {
                     let x = CGFloat(i) * (barWidth + space) + space
                     let y = translateAmplitudeToYPosition(amplitude: amplitude)
-                    let bar = UIBezierPath(rect: CGRect(x: x, y: y, width: barWidth, height: bounds.height - bottomSpace - y))
+                    let radius = barCapStyle == .round ? barWidth / 2 : 0
+                    let height = bounds.height - bottomSpace - y + radius
+                    let bar = UIBezierPath(roundedRect: CGRect(x: x, y: y, width: barWidth, height: height), cornerRadius: radius)
                     leftPath.append(bar)
                 }
                 let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
-                animation.fromValue = leftMaskLayer.path
                 animation.toValue = leftPath.cgPath
                 leftMaskLayer.add(animation, forKey: nil)
                 
@@ -44,11 +52,12 @@ class SpectrumView: UIView {
                     for (i, amplitude) in spectra[1].enumerated() {
                         let x = CGFloat(spectra[1].count - 1 - i) * (barWidth + space) + space
                         let y = translateAmplitudeToYPosition(amplitude: amplitude)
-                        let bar = UIBezierPath(rect: CGRect(x: x, y: y, width: barWidth, height: bounds.height - bottomSpace - y))
+                        let radius = barCapStyle == .round ? barWidth / 2 : 0
+                        let height = bounds.height - bottomSpace - y + radius
+                        let bar = UIBezierPath(roundedRect: CGRect(x: x, y: y, width: barWidth, height: height), cornerRadius: radius)
                         rightPath.append(bar)
                     }
                     let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
-                    animation.fromValue = rightMaskLayer.path
                     animation.toValue = rightPath.cgPath
                     rightMaskLayer.add(animation, forKey: nil)
                     
