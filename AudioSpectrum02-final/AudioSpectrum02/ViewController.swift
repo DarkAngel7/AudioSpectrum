@@ -30,10 +30,20 @@ class ViewController: UIViewController {
         player = AudioSpectrumPlayer()
         player.delegate = self
     }
-    override func viewDidLayoutSubviews() {
-        let barSpace = spectrumView.frame.width / CGFloat(player.analyzer.frequencyBands * 3 - 1)
-        spectrumView.barWidth = barSpace * 2
-        spectrumView.space = barSpace
+    
+    @IBAction func switchSpectrumViewCapStyle(_ sender: Any) {
+        if spectrumView.barCapStyle == .butt {
+            spectrumView.barCapStyle = .round
+        } else {
+            spectrumView.barCapStyle = .butt
+        }
+    }
+    @IBAction func switchSpectrumViewStyle(_ sender: Any) {
+        if spectrumView.style == .circle {
+            spectrumView.style = .linear
+        } else {
+            spectrumView.style = .circle
+        }
     }
 }
 
