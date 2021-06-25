@@ -55,9 +55,9 @@ class SpectrumView: UIView {
                     let centerX = bounds.width / 2
                     let centerY = (bounds.height - topSpace - bottomSpace) / 2
                     let radius = (bounds.height - topSpace - bottomSpace) / 2
-                    let space = 2 * Float.pi * Float(radius) / Float(spectra[0].count * 2 - 1)
+                    let space = 2 * Float.pi * Float(radius) / Float(spectra[0].count * 2)
                     let barWidth = space * 0.5
-                    let spaceDegree = 2 * Float.pi / Float(spectra[0].count * 2 - 1)
+                    let spaceDegree = 2 * Float.pi / Float(spectra[0].count * 2)
                     leftMaskLayer.lineWidth = CGFloat(barWidth)
                     for (i, amplitude) in spectra[0].enumerated() {
                         let currentRadius = translateAmplitudeToRadius(amplitude: amplitude)
@@ -95,9 +95,9 @@ class SpectrumView: UIView {
                         let centerX = bounds.width / 2
                         let centerY = (bounds.height - topSpace - bottomSpace) / 2
                         let radius = (bounds.height - topSpace - bottomSpace) / 2
-                        let space = 2 * Float.pi * Float(radius) / Float(spectra[0].count * 2 - 1)
+                        let space = 2 * Float.pi * Float(radius) / Float(spectra[0].count * 2)
                         let barWidth = space * 0.5
-                        let spaceDegree = 2 * Float.pi / Float(spectra[0].count * 2 - 1)
+                        let spaceDegree = 2 * Float.pi / Float(spectra[0].count * 2)
                         rightMaskLayer.lineWidth = CGFloat(barWidth)
                         for (i, amplitude) in spectra[1].enumerated() {
                             let currentRadius = translateAmplitudeToRadius(amplitude: amplitude)
